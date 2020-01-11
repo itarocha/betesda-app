@@ -1,7 +1,7 @@
 {
   "name": "betesda-app",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "A Vue.js project client to project betesda-api",
   "author": "Itamar Rocha",
   "private": true,
   "scripts": {
