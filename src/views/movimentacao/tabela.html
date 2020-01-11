@@ -1,0 +1,40 @@
+<table v-if="false">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Cidade</th>
+        <th>Utilização</th>
+        <th>Status Hosped.</th>
+        <th>Entrada</th>
+        <th>Prev.Saída</th>
+        <th>Dt. Saída</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr v-for="(h, idxHpd) in hospedes" :key="idxHpd">
+          <td>{{h.nome}}</td>
+          <td>{{h.cidadeUf}}</td>
+          <td>{{h.tipoUtilizacaoDescricao}}</td>
+          <td>{{h.statusHospedagem}}</td>
+          <td>{{formatDate(h.dataPrimeiraEntrada,'DD/MM')}}</td>
+          <td>{{formatDate(h.dataPrevistaSaida,'DD/MM')}}</td>
+          <td>{{formatDate(h.dataEfetivaSaida,'DD/MM')}}</td>
+          <td>
+
+          <el-tooltip content="Ver Detalhes" placement="bottom" :open-delay="300">
+            <el-button type="primary" plain size="mini" circle @click="showHospedagemInfo(h.hospedagemId)">
+              <i class="fas fa-info"></i>
+            </el-button>
+          </el-tooltip>
+
+          <el-tooltip content="Editar Pessoa" placement="bottom" :open-delay="300">
+            <el-button type="primary" plain size="mini" circle @click="handleEditPessoa(h.pessoaId)">
+              <i class="fas fa-pencil-alt"></i>
+            </el-button>
+          </el-tooltip>
+
+          </td>
+        </tr>
+    </tbody>
+  </table>                    
