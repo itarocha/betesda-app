@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Home from '@/views/Home'
 import Teste from '@/components/Teste'
 import Login from '@/views/auth/Login'
+import RedefinirSenha from '@/views/auth/RedefinirSenha'
 import CreateNewUser from '@/views/auth/CreateNewUser'
 
 import SituacoesLeitos from '@/views/cadastros/SituacoesLeitos'
@@ -139,6 +140,14 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: Login,
+      meta: {
+        requiresVisitor: true
+      }
+    },
+    {
+      path: '/redefinir-senha/:token',
+      name: 'redefinir_senha',
+      component: RedefinirSenha,
       meta: {
         requiresVisitor: true
       }
