@@ -46,14 +46,14 @@ module.exports = {
     assetsSubDirectory: 'static',
     
     // Abaixo para execução local
-    //assetsPublicPath: 'http://localhost/',
-    assetsPublicPath: 'http://petrasistemas.com.br/betesda/',
+    assetsPublicPath: 'http://localhost:8080/',
+    //assetsPublicPath: 'http://petrasistemas.com.br/betesda/',
     //assetsPublicPath: 'http://betesda.itarocha.xyz/',
 
     // Various Dev Server settings
     //Abaixo para acesso local
-    //host: 'localhost', // can be overwritten by process.prod.HOST
-    host: 'petrasistemas.com.br', // can be overwritten by process.prod.HOST
+    host: 'localhost', // can be overwritten by process.prod.HOST
+    //host: 'petrasistemas.com.br', // can be overwritten by process.prod.HOST
     //host: 'betesda.itarocha.xyz', // can be overwritten by process.prod.HOST
 
     /**

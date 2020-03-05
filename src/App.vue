@@ -63,37 +63,6 @@
             <el-menu-item index="2-7" v-if="isRoot">
                 <router-link to="/create_new_user" tag="div"><i class="fas fa-eye pr"></i>Administrador</router-link>
             </el-menu-item>
-
-            <!--''
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="fas fa-folder-open pr"/>
-                <span>Cadastros</span>
-              </template>
-              -->
-                <!-- menus aqui -->
-                <!--
-                <el-menu-item index="1-0-0">
-                  <router-link to="/login" tag="div"><i class="fas fa-eye pr"></i>Login</router-link>
-                </el-menu-item>
-                <el-menu-item index="1-0-1">
-                    <router-link to="/teste" tag="div"><i class="fas fa-file pr"></i>Teste</router-link>
-                </el-menu-item>
-                -->
-            <!--    
-            </el-submenu>
-            <el-submenu index="2">
-              <template slot="title">
-                <i class="fas fa-forward pr"/>
-                <span>Movimentação</span>
-              </template>
-              -->
-                <!-- menus aqui -->
-                <!--
-                <el-menu-item index="2-5" route="tela"><i class="fas fa-utensils pr"></i>Serviços</el-menu-item>
-                <el-menu-item index="2-6" route="tela"><i class="fas fa-id-card pr"></i>Histórico de Hospedagens</el-menu-item>
-                -->
-            <!--</el-submenu>-->
           </el-menu>
         </el-aside>
       <el-container>
@@ -209,9 +178,6 @@ export default {
     
     handleLogout(){
       petra.doLogout()
-      //this.$store.dispatch("limparHospedagem")
-      //this.$store.dispatch('destroyToken')
-      //this.$router.push({name:'home'})
     },
 
   },

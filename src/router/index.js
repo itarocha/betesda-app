@@ -35,7 +35,7 @@ const router = new Router({
       name: 'situacoes_leitos',
       component: SituacoesLeitos,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -43,7 +43,7 @@ const router = new Router({
       name: 'tipos_hospedes',
       component: TiposHospedes,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -51,7 +51,7 @@ const router = new Router({
       name: 'tipos_servicos',
       component: TiposServicos,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -59,7 +59,7 @@ const router = new Router({
       name: 'destinacoes_hospedagens',
       component: DestinacoesHospedagens,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -67,7 +67,7 @@ const router = new Router({
       name: 'tipos_leitos',
       component: TiposLeitos,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -75,7 +75,7 @@ const router = new Router({
       name: 'quartos',
       component: Quartos,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -83,7 +83,7 @@ const router = new Router({
       name: 'pessoas',
       component: Pessoas,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
