@@ -2,6 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import VueLogger from 'vuejs-logger';
+import * as Keycloak from 'keycloak-js'
 import router from './router'
 global.router = router
 
@@ -69,11 +71,108 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+const logOptions = {
+  isEnabled: true,
+  logLevel : Vue.config.productionTip  ? 'error' : 'debug',
+  stringifyArguments : false,
+  showLogLevel : true,
+  showMethodName : true,
+  separator: '|',
+  showConsoleColors: true
+};
+Vue.use(VueLogger, logOptions);
+
+
 /* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  store,
-  components: { App },
-  template: '<App/>'
-})
+let initOptions = {
+  url: 'http://localhost:8200/auth',
+  realm: 'quarkus-quickstart',
+  clientId: 'quarkus-front',
+  onLoad: 'login-required',
+  promiseType: 'native'
+}
+
+let keycloak = Keycloak(initOptions);
+
+keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
+    
+  if(!auth) {
+    window.location.reload();
+  } else {
+    Vue.$log.info("Authenticated");
+  }
+
+  new Vue({
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    template: '<App/>'
+  });
+
+  localStorage.setItem("vue-token", keycloak.token);
+  localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
+
+  Vue.$log.warn('Token not refreshed, valid for '
+  + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+
+
+  setTimeout(() =>{
+    keycloak.updateToken(70).success((refreshed)=>{
+      if (refreshed) {
+        Vue.$log.debug('Token refreshed'+ refreshed);
+      } else {
+        Vue.$log.warn('Token not refreshed, valid for '
+        + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+      }
+    }).error(()=>{
+        Vue.$log.error('Failed to refresh token');
+    });
+
+
+  }, 60000)
+
+}).error((e) =>{
+  console.log("ERROOOOOOOOOOOOOOOO");
+  console.log(e);
+Vue.$log.error("Authenticated Failed");
+});
+
+
+/*
+let keycloak = Keycloak(initOptions);
+
+keycloak.init({ onLoad: initOptions.onLoad}).success((auth) => {
+  if (!auth) {
+    window.location.reload();
+  } else {
+    Vue.$log.info("Authenticated");
+  }
+
+  new Vue({
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    template: '<App/>'
+  });
+
+  localStorage.setItem("vue-token", keycloak.token);
+  localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
+
+  setTimeout(() => {
+    keycloak.updateToken(70).success((refreshed) => {
+      if (refreshed) {
+        Vue.$log.debug('Token refreshed ' + refreshed);
+      } else {
+        Vue.$log.warn('Token not refreshed, valid for '+ Math.round(keycloak.tokenParsed.exp + keycloak.timeSkey - new Date().getTime() / 1000)+ ' seconds');
+      }
+    }).error(() => {
+      Vue.$log.error('Failed to refresh token');
+    });
+  }, 60000);
+  
+}).error(() => {
+  Vue.$log.error("Authenticated Failed");
+});
+*/
