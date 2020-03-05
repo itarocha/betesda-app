@@ -96,7 +96,7 @@ export default {
   },
 
   mounted(){
-    this.$store.dispatch('setAcao','Tipos de Leitos')
+    ////////////////////this.$store.dispatch('setAcao','Tipos de Leitos')
     this.doGetAll()
   },
 
@@ -191,6 +191,7 @@ export default {
     doGetAll(evt) {
       petra.axiosGet("/app/tipo_leito").then(
         response => {
+          console.log(response.data)
           this.dados = response.data
         })
     },

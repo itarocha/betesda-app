@@ -58,7 +58,9 @@ export default {
     //var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
 
     resolveToken(){
-      var token = localStorage.getItem('accessToken') || null
+      //var token = localStorage.getItem('accessToken') || null
+      var token = localStorage.getItem('vue-token') || null
+      console.log(token)
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
       var decode = this.parseJwt(token)

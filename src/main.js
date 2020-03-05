@@ -113,10 +113,6 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
   localStorage.setItem("vue-token", keycloak.token);
   localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
 
-  Vue.$log.warn('Token not refreshed, valid for '
-  + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-
-
   setTimeout(() =>{
     keycloak.updateToken(70).success((refreshed)=>{
       if (refreshed) {
@@ -130,10 +126,9 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
     });
 
 
-  }, 60000)
+  }, 1000)
 
 }).error((e) =>{
-  console.log("ERROOOOOOOOOOOOOOOO");
   console.log(e);
 Vue.$log.error("Authenticated Failed");
 });
