@@ -3,9 +3,20 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+function containsRole(state, role){
+    const user =  state.token ?  petra.parseJwt(state.token) : null
+    if (user && user.realm_access && user.realm_access.roles){
+        const roles = user.realm_access.roles
+        console.log('role = '+role)
+        return roles.indexOf(role) >= 0
+     }
+    return false
+}
+
+
 export default new Vuex.Store({
     state:{ // data
-        token: localStorage.getItem('accessToken') || null,
+        token: localStorage.getItem('token') || null,
         snackbar : false,
         numero : 0,
 
@@ -40,53 +51,45 @@ export default new Vuex.Store({
         loggedIn(state){
             return state.token != null
         },
+
         titulo(state){
             var descricao = ((state.tela.descricao == "") ? "" : " - " +state.tela.descricao);
             var acao = ((state.tela.acao == "") ? "" : " - " +state.tela.acao);
             return "Casa Betesda" + descricao + acao;
         },
+
         snackbar(state){
             return state.snackbar
         },
+
         numero(state){
             return state.numero
         },
+
         flashMessage(state){
             return state.flashMessage
         },
+
         user(state){
             return state.token ?  petra.parseJwt(state.token) : null
         },
         
         isUser(state){
-            var user =  state.token ?  petra.parseJwt(state.token) : null
-            if (user && user.authorities){
-                var tipo =  _.find(user.authorities,{authority : "ROLE_USER"})
-                return tipo ? true : false;
-            }
-            return false
+            return containsRole(state, "USER")
         },
         
         isAdmin(state){
-            var user =  state.token ?  petra.parseJwt(state.token) : null
-            if (user && user.authorities){
-                var tipo =  _.find(user.authorities,{authority : "ROLE_ADMIN"})
-                return tipo ? true : false;
-            }
-            return false
+            return containsRole(state, "ADMIN")
         },
         
         isRoot(state){
-            var user =  state.token ?  petra.parseJwt(state.token) : null
-            if (user && user.authorities){
-                var tipo =  _.find(user.authorities,{authority : "ROLE_ROOT"})
-                return tipo ? true : false;
-            }
-            return false
+            return containsRole(state, "ROOT")
         },
         
         aguardando : state => state.aguardando,
+
         formHospedagem : state => state.formHospedagem,
+        
         qtdAguardando : state => {
             return state.aguardando.length
         },
@@ -104,7 +107,7 @@ export default new Vuex.Store({
                 })
                 .then(response => {
                     const token = response.data.accessToken
-                    localStorage.setItem('accessToken', token)
+                    localStorage.setItem('token', token)
                     context.commit('retrieveToken', token)
                     resolve(response)
                 }).catch(error => {
@@ -114,7 +117,7 @@ export default new Vuex.Store({
         },
         destroyToken(context){
             if (context.getters.loggedIn){
-                localStorage.removeItem('accessToken')
+                localStorage.removeItem('token')
                 context.commit('destroyToken')
             }
         },

@@ -1,3 +1,5 @@
+import * as Keycloak from 'keycloak-js'
+
 const moment = require('moment')
 
 moment.locale('pt-br');
@@ -50,8 +52,8 @@ export default {
     },
 
     parseJwt(token) {
-      var base64Url = token.split('.')[1]
-      var base64 = base64Url.replace('-', '+').replace('_', '/')
+      const base64Url = token.split('.')[1]
+      const base64 = base64Url.replace('-', '+').replace('_', '/')
       return JSON.parse(window.atob(base64))
     },
 
@@ -59,8 +61,7 @@ export default {
 
     resolveToken(){
       //var token = localStorage.getItem('accessToken') || null
-      var token = localStorage.getItem('vue-token') || null
-      console.log(token)
+      var token = localStorage.getItem('token') || null
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
       var decode = this.parseJwt(token)
@@ -129,7 +130,7 @@ export default {
     },
 
     tratarRequestError(error, reject, showPostErrors){
-      var falhaAutorizacao = false
+      let falhaAutorizacao = false
       if ((error.response) && (error.response.status)) {
         if ((error.response.status >= 400) && (error.response.status < 500) && showPostErrors){
           if (error.response.status == 401){
@@ -162,40 +163,6 @@ export default {
         reject(error)
       }
     },
-
-
-    /*
-    axios.get('https://appdividend.com', {
-    headers: {
-      Authorization: 'Bearer ' + token //the token is a variable which holds the token
-    }
-    });
-
-    let config = {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      responseType: 'blob'
-    };
-
-    axios.post('https://appdividend.com', data, config)
-        .then((response) => {
-            console.log(response.data);
-    });
-
-    #Axios Response Object
-    When the HTTP request is successful sent, than then() callback will receive a response object with the following properties:
-
-    -data: the payload returned from the server. By default, Axios expects JSON and will parse this back into a JavaScript object for you.
-    -status: the HTTP code returned from the server.
-    -statusText: the HTTP status message returned by the server.
-    -headers: all the headers sent back by the server.
-    -config: the original request configuration.
-    -request: the actual XMLHttpRequest object (when running in a browser).
-
-    axios.defaults.baseURL = 'https://api.example.com';
-    axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-    axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
-*/
 
     tratarErros(error, debug){
         if (error.response) {
@@ -232,9 +199,47 @@ export default {
       },
 
       doLogout(){
-        store.dispatch("limparHospedagem")
-        store.dispatch('destroyToken')
-        router.push({name:'home'})
+
+        let keycloak = localStorage.getItem("keycloak")
+        if (keycloak){
+          keycloak.logout()
+          localStorage.removeItem("token");
+          localStorage.removeItem("refresh-token");
+          localStorage.removeItem("keycloak");
+          store.dispatch("limparHospedagem")
+          store.dispatch('destroyToken')
+          router.push({name:'home'})
+        }
+
+        /*
+        let initOptions = {
+          url: 'http://localhost:8200/auth',
+          realm: 'quarkus-quickstart',
+          clientId: 'quarkus-front',
+          onLoad: 'login-required',
+          promiseType: 'native'
+        }
+        
+        let keycloak = Keycloak(initOptions);
+        
+        keycloak.logout().success((auth) =>{
+            
+          console.log("LOGOUT EFETUADO COM SUCESSO")
+
+
+          store.dispatch("limparHospedagem")
+          store.dispatch('destroyToken')
+          router.push({name:'home'})
+          
+          localStorage.removeItem("token");
+          localStorage.removeItem("refresh-token");
+        
+        }).error((e) =>{
+          console.log(e);
+          Vue.$log.error("Authenticated Failed");
+        });
+        */
+
       },
 
       sem_acento(val, replaceBy) {

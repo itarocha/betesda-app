@@ -1,25 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Home from '@/views/Home'
-import Teste from '@/components/Teste'
-import Login from '@/views/auth/Login'
-import RedefinirSenha from '@/views/auth/RedefinirSenha'
-import CreateNewUser from '@/views/auth/CreateNewUser'
+import Home from '@/containers/Home'
 
-import SituacoesLeitos from '@/views/cadastros/SituacoesLeitos'
-import TiposHospedes from '@/views/cadastros/TiposHospedes'
-import TiposServicos from '@/views/cadastros/TiposServicos'
-import DestinacoesHospedagens from '@/views/cadastros/DestinacoesHospedagens'
-import TiposLeitos from '@/views/cadastros/TiposLeitos'
-import Pessoas from '@/views/cadastros/Pessoas'
-import Entidades from '@/views/cadastros/Entidades'
-import Quartos from '@/views/cadastros/Quartos'
-import Checkin from '@/views/movimentacao/Checkin'
-import Hospedagens from '@/views/movimentacao/Hospedagens'
-import PlanilhaGeral from '@/views/movimentacao/PlanilhaGeral'
+import Login from '@/containers/auth/Login'
+import RedefinirSenha from '@/containers/auth/RedefinirSenha'
+import CreateNewUser from '@/containers/auth/CreateNewUser'
 
-import TelaHospedagem from '@/views/hpd/TelaHospedagem'
+import SituacoesLeitos from '@/containers/cadastros/SituacoesLeitos'
+import TiposHospedes from '@/containers/cadastros/TiposHospedes'
+import TiposServicos from '@/containers/cadastros/TiposServicos'
+import DestinacoesHospedagens from '@/containers/cadastros/DestinacoesHospedagens'
+import TiposLeitos from '@/containers/cadastros/TiposLeitos'
+import Pessoas from '@/containers/cadastros/Pessoas'
+import Entidades from '@/containers/cadastros/Entidades'
+import Quartos from '@/containers/cadastros/Quartos'
+
+import Checkin from '@/containers/movimentacao/Checkin'
+import Hospedagens from '@/containers/movimentacao/Hospedagens'
+import PlanilhaGeral from '@/containers/movimentacao/PlanilhaGeral'
+
+import TelaHospedagem from '@/containers/hpd/TelaHospedagem'
 
 Vue.use(Router)
 
@@ -130,11 +131,6 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
-    },
-    {
-      path: '/teste',
-      name: 'teste',
-      component: Teste
     },
     {
       path: '/login',

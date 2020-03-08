@@ -3,7 +3,7 @@
 
     <el-container v-if="state == 'browse'">
       <el-header>
-        <el-tooltip content="Incluir novo Tipo de Hóspede" placement="bottom" :open-delay="toolTipDelay">
+        <el-tooltip content="Incluir nova Situação de Leito" placement="bottom" :open-delay="toolTipDelay">
           <el-button type="primary" @click="handleInsert">Incluir</el-button>
         </el-tooltip>
       </el-header>
@@ -19,7 +19,8 @@
               height="400">
               <el-table-column fixed header-align="left" align="right" prop="id" label="Código" width="150"></el-table-column>
               <el-table-column prop="descricao" sortable label="Descrição" width="300"></el-table-column>
-              <el-table-column label="Ações">
+              <el-table-column prop="disponivel" label="Disponível?" width="100" :formatter="fmtSimNao"></el-table-column>
+              <el-table-column label="Ações" width="120" align="center">
                 <template slot-scope="scope">
                   <el-tooltip content="Editar" placement="bottom" :open-delay="toolTipDelay">
                     <el-button type="primary" plain size="mini" circle @click="handleEdit(scope.row)"><i class="fas fa-pencil-alt"></i></el-button>  
@@ -44,7 +45,7 @@
           <el-tooltip content="Cancelar alterações" placement="bottom" :open-delay="toolTipDelay">
             <div style="margin-right:10px;"><el-button @click="handleCancel">Cancelar</el-button></div>
           </el-tooltip>
-          <div>{{state=='edit' ? 'Editando Tipo de Hóspede' : 'Incluindo Tipo de Hóspede'}}</div>
+          <div>{{state=='edit' ? 'Editando Situação de Leito' : 'Incluindo Situação de Leito'}}</div>
         </el-row>
       </el-header>
       <el-main>
@@ -57,6 +58,13 @@
 
                 <el-form-item label="Descrição" prop="descricao" :error="getErro('descricao')">
                   <el-input v-model="form.descricao" ref="edtdescricao"></el-input>
+                </el-form-item>
+
+                <el-form-item label="Disponível?" prop="disponivel" :error="getErro('disponivel')">
+                  <el-select v-model="form.disponivel">
+                    <el-option label="SIM" value="S"></el-option>
+                    <el-option label="NÃO" value="N"></el-option>
+                  </el-select>
                 </el-form-item>
 
               </el-form>
@@ -83,15 +91,15 @@
 
 <script>
 
-export default {
+const SituacoesLeitos = {
 
-  name: 'TiposHospedes',
+  name: 'SituacoesLeitos',
 
   created(){
   },
 
   mounted(){
-    this.$store.dispatch('setAcao','Tipos de Hóspedes')
+    this.$store.dispatch('setAcao','Situações de Leitos')
     this.doGetAll()
   },
 
@@ -126,7 +134,7 @@ export default {
 
   methods: {
 
-    resetData(){
+    resetData() {
       this.form = {
         id : null,
         descricao : null,
@@ -136,6 +144,11 @@ export default {
     },
 
     setDefaultData(){
+      this.form.disponivel = 'S'
+    },
+
+    fmtSimNao(row, col) {
+      return (row.disponivel == 'S' ? 'Sim' : 'Não')
     },
 
     getErro(campo){
@@ -146,12 +159,12 @@ export default {
       return null
     },
 
-    handleEdit(row){
+    handleEdit(row) {
       this.resetData()
       this.doGetById(row.id)
     },
 
-    handleInsert(){
+    handleInsert() {
       this.state = "insert"
       this.resetData()
       this.setDefaultData()
@@ -165,7 +178,7 @@ export default {
     },
     
     handleDelete(row){
-      this.textToDelete = `Deseja realmente excluir o Tipo de Hóspede "${row.descricao}"?`
+      this.textToDelete = `Deseja realmente excluir a Situação "${row.descricao}"?`
       this.idToDelete = row.id
       this.dialogExclusaoVisible = true
     },
@@ -183,14 +196,14 @@ export default {
     },
 
     doGetAll(evt) {
-      petra.axiosGet("/app/tipo_hospede").then(
+      petra.axiosGet("/app/situacao_leito").then(
         response => {
           this.dados = response.data
         })
     },
 
     doGetById(id) {
-      petra.axiosGet(`/app/tipo_hospede/${id}`).then(
+      petra.axiosGet(`/app/situacao_leito/${id}`).then(
         response => {
           this.form = response.data
           this.state = "edit"
@@ -203,9 +216,9 @@ export default {
     },
 
     doDelete(evt) {
-      petra.axiosDelete("/app/tipo_hospede/"+this.idToDelete)
+      petra.axiosDelete("/app/situacao_leito/"+this.idToDelete)
         .then(response => {
-          petra.showMessageSuccess('Tipo de Hóspede excluído com sucesso')
+          petra.showMessageSuccess('Situação de Leito excluída com sucesso')
           this.doGetAll()
         })
         .catch(error => {
@@ -216,9 +229,9 @@ export default {
     doSave(evt) {
       this.errors = [];
 
-      petra.axiosPost("/app/tipo_hospede/", this.form, false)
+      petra.axiosPost("/app/situacao_leito/", this.form, false)
         .then(response => {
-          petra.showMessageSuccess('Tipo de Hóspede gravado com sucesso')
+          petra.showMessageSuccess('Situação de Leito gravada com sucesso')
           this.state="browse"
           this.doGetAll()
         })
@@ -229,6 +242,9 @@ export default {
 
   }
 }
+
+export default SituacoesLeitos
+
 </script>
 
 <style scoped>

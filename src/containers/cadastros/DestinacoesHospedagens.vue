@@ -3,7 +3,7 @@
 
     <el-container v-if="state == 'browse'">
       <el-header>
-        <el-tooltip content="Incluir novo Tipo de Leito" placement="bottom" :open-delay="toolTipDelay">
+        <el-tooltip content="Incluir nova Destinação de Hospedagem" placement="bottom" :open-delay="toolTipDelay">
           <el-button type="primary" @click="handleInsert">Incluir</el-button>
         </el-tooltip>
       </el-header>
@@ -19,7 +19,6 @@
               height="400">
               <el-table-column fixed header-align="left" align="right" prop="id" label="Código" width="150"></el-table-column>
               <el-table-column prop="descricao" sortable label="Descrição" width="300"></el-table-column>
-              <el-table-column prop="quantidadeCamas" label="Qtd.Camas" width="100" ></el-table-column>
               <el-table-column label="Ações">
                 <template slot-scope="scope">
                   <el-tooltip content="Editar" placement="bottom" :open-delay="toolTipDelay">
@@ -45,7 +44,7 @@
           <el-tooltip content="Cancelar alterações" placement="bottom" :open-delay="toolTipDelay">
             <div style="margin-right:10px;"><el-button @click="handleCancel">Cancelar</el-button></div>
           </el-tooltip>
-          <div>{{state=='edit' ? 'Editando Tipo de Leito' : 'Incluindo Tipo de Leito'}}</div>
+          <div>{{state=='edit' ? 'Editando Destinaçao de Hospedagem' : 'Incluindo Destinaçao de Hospedagem'}}</div>
         </el-row>
       </el-header>
       <el-main>
@@ -58,10 +57,6 @@
 
                 <el-form-item label="Descrição" prop="descricao" :error="getErro('descricao')">
                   <el-input v-model="form.descricao" ref="edtdescricao"></el-input>
-                </el-form-item>
-
-                <el-form-item label="Disponível?" prop="quantidadeCamas" :error="getErro('quantidadeCamas')">
-                  <el-input-number v-model="form.quantidadeCamas" :min="1" :max="2"></el-input-number>
                 </el-form-item>
 
               </el-form>
@@ -88,15 +83,28 @@
 
 <script>
 
-export default {
+const DestinacoesHospedagens = {
 
-  name: 'TiposLeitos',
+  name: 'DestinacoesHospedagens',
 
   created(){
+
+    console.log("oua")
+
+    const user = {
+      firstname: 'Robin',
+      lastname: 'Wieruch',
+    }
+
+    const {fn, ln} = user
+
+    console.log(fn,ln)
+
+
   },
 
   mounted(){
-    ////////////////////this.$store.dispatch('setAcao','Tipos de Leitos')
+    this.$store.dispatch('setAcao','Destinações de Hospedagens')
     this.doGetAll()
   },
 
@@ -141,7 +149,6 @@ export default {
     },
 
     setDefaultData(){
-      this.form.quantidadeCamas = 1
     },
 
     getErro(campo){
@@ -171,7 +178,7 @@ export default {
     },
     
     handleDelete(row){
-      this.textToDelete = `Deseja realmente excluir o Tipo de Leito "${row.descricao}"?`
+      this.textToDelete = `Deseja realmente excluir a Destinação de Hospedagem "${row.descricao}"?`
       this.idToDelete = row.id
       this.dialogExclusaoVisible = true
     },
@@ -189,15 +196,14 @@ export default {
     },
 
     doGetAll(evt) {
-      petra.axiosGet("/app/tipo_leito").then(
+      petra.axiosGet("/app/destinacao_hospedagem").then(
         response => {
-          console.log(response.data)
           this.dados = response.data
         })
     },
 
     doGetById(id) {
-      petra.axiosGet(`/app/tipo_leito/${id}`).then(
+      petra.axiosGet(`/app/destinacao_hospedagem/${id}`).then(
         response => {
           this.form = response.data
           this.state = "edit"
@@ -210,9 +216,9 @@ export default {
     },
 
     doDelete(evt) {
-      petra.axiosDelete("/app/tipo_leito/"+this.idToDelete)
+      petra.axiosDelete("/app/destinacao_hospedagem/"+this.idToDelete)
         .then(response => {
-          petra.showMessageSuccess('Tipo de Leito excluído com sucesso')
+          petra.showMessageSuccess('Destinação de Hospedagem excluída com sucesso')
           this.doGetAll()
         })
         .catch(error => {
@@ -223,9 +229,9 @@ export default {
     doSave(evt) {
       this.errors = [];
 
-      petra.axiosPost("/app/tipo_leito/", this.form, false)
+      petra.axiosPost("/app/destinacao_hospedagem/", this.form, false)
         .then(response => {
-          petra.showMessageSuccess('Tipo de Leito gravado com sucesso')
+          petra.showMessageSuccess('Destinação de Hospedagem gravada com sucesso')
           this.state="browse"
           this.doGetAll()
         })
@@ -236,6 +242,9 @@ export default {
 
   }
 }
+
+export default DestinacoesHospedagens
+
 </script>
 
 <style scoped>

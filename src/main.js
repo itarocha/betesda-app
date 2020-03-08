@@ -8,17 +8,8 @@ import router from './router'
 global.router = router
 
 import ElementUI from 'element-ui';
-//import 'element-ui/lib/theme-chalk/index.css';
 
-// https://origin.fontawesome.com/how-to-use/on-the-web/using-with/vuejs
-/*
-npm i --save @fortawesome/fontawesome-svg-core \
-  npm i --save @fortawesome/free-solid-svg-icons \
-  npm i --save @fortawesome/vue-fontawesome
-*/
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-//import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+//import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 //library.add(faCoffee)
@@ -110,8 +101,9 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
     template: '<App/>'
   });
 
-  localStorage.setItem("vue-token", keycloak.token);
-  localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
+  localStorage.setItem("token", keycloak.token);
+  localStorage.setItem("refresh-token", keycloak.refreshToken);
+  localStorage.setItem("keycloak", keycloak)
 
   setTimeout(() =>{
     keycloak.updateToken(70).success((refreshed)=>{
@@ -130,44 +122,5 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
 
 }).error((e) =>{
   console.log(e);
-Vue.$log.error("Authenticated Failed");
-});
-
-
-/*
-let keycloak = Keycloak(initOptions);
-
-keycloak.init({ onLoad: initOptions.onLoad}).success((auth) => {
-  if (!auth) {
-    window.location.reload();
-  } else {
-    Vue.$log.info("Authenticated");
-  }
-
-  new Vue({
-    el: '#app',
-    router,
-    store,
-    components: { App },
-    template: '<App/>'
-  });
-
-  localStorage.setItem("vue-token", keycloak.token);
-  localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
-
-  setTimeout(() => {
-    keycloak.updateToken(70).success((refreshed) => {
-      if (refreshed) {
-        Vue.$log.debug('Token refreshed ' + refreshed);
-      } else {
-        Vue.$log.warn('Token not refreshed, valid for '+ Math.round(keycloak.tokenParsed.exp + keycloak.timeSkey - new Date().getTime() / 1000)+ ' seconds');
-      }
-    }).error(() => {
-      Vue.$log.error('Failed to refresh token');
-    });
-  }, 60000);
-  
-}).error(() => {
   Vue.$log.error("Authenticated Failed");
 });
-*/

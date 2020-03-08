@@ -70,7 +70,7 @@
 import EditSearch from "../../components/EditSearch"
 import FramePessoa from "./FramePessoa"
 
-export default {
+const Pessoas = {
   name: "Pessoas",
 
   components:{
@@ -236,7 +236,10 @@ export default {
       return "wordwrap";
     }
   }
-};
+}
+
+export default Pessoas
+
 </script>
 
 <style scoped>

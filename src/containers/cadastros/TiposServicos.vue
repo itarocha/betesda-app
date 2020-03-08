@@ -91,7 +91,7 @@
 
 <script>
 
-export default {
+const TiposServicos = {
 
   name: 'TiposServicos',
 
@@ -242,6 +242,8 @@ export default {
 
   }
 }
+
+export default TiposServicos
 </script>
 
 <style scoped>

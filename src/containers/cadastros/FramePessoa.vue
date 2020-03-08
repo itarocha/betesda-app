@@ -186,7 +186,7 @@
 import { mask } from "vue-the-mask";
 
 
-export default {
+const FramePessoa = {
   name: "FramePessoa",
 
   directives: { mask },
@@ -405,10 +405,11 @@ export default {
     formatDate(data, formato) {
       return petraDateTime.formatDate(data, formato);
     },
-
-
   }  
-};
+}
+
+export default FramePessoa
+
 </script>
 
 <style scoped>

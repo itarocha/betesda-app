@@ -242,7 +242,7 @@
 <script>
 import { mask } from "vue-the-mask";
 
-export default {
+const Entidades = {
   name: "Entidades",
 
   directives: { mask },
@@ -642,7 +642,10 @@ export default {
       return "wordwrap";
     }
   }
-};
+}
+
+export default Entidades
+
 </script>
 
 <style scoped>

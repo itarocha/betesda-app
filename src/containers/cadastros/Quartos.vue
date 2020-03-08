@@ -322,7 +322,7 @@
 
 <script>
 
-export default {
+const Quartos = {
 
   name: 'Quartos',
 
@@ -508,37 +508,6 @@ export default {
       this.dialogExclusaoVisible = true
     },
 
-/*
-    loadLeitosOcupados() {
-      var dataIni = petraDateTime.hoje()
-
-      var request = {
-        dataIni : dataIni,
-        dataFim : dataIni
-      }
-
-      this.leitosOcupados = []
-      petra.axiosPost("/app/hospedagem/leitos_ocupados", request).then(
-        response => {
-          this.leitosOcupados = response.data
-        })
-    },
-
-    visualizarHospedagemNoLeito(leitoId){
-      petra.showMessageSuccess('Em breve será apresentada a hospedagem do leito')
-    },
-
-    classeSituacaoLeito(id){
-      var ocupado = this.isLeitoOcupado(id)
-      return ocupado ? "red lighten-2" : "amber lighten-4"
-    },
-
-    isLeitoOcupado(id){
-      return (this.leitosOcupados.indexOf(id) >= 0);
-    },
-
-*/
-
     handleCancel(row){
       this.state = "browse"
       this.doGetAll()
@@ -603,19 +572,6 @@ export default {
           })      
         })
     },
-
-    /*
-    doDelete(evt) {
-      petra.axiosDelete("/app/destinacao_hospedagem/"+this.idToDelete)
-        .then(response => {
-          petra.showMessageSuccess('Destinação de Hospedagem excluída com sucesso')
-          this.doGetAll()
-        })
-        .catch(error => {
-          petra.tratarErros(error)
-        })
-    },
-    */
 
     doSaveInsertQuarto() {
       this.errors = []
@@ -760,6 +716,8 @@ export default {
 
   }
 }
+
+export default Quartos
 </script>
 
 <style scoped>

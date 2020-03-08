@@ -27,7 +27,7 @@
                 <router-link to="/tipos_hospedes" tag="div"><i class="fas fa-tag pr"></i>Tipos de Hóspedes</router-link>
             </el-menu-item>
 
-            <el-menu-item index="1-4" >
+            <el-menu-item index="1-4" v-if="isRoot || isAdmin  || isUser" >
                 <router-link to="/tipos_leitos" tag="div"><i class="fas fa-bed pr"></i>Tipos de Leitos</router-link>
             </el-menu-item>
 
@@ -132,7 +132,9 @@ export default {
     },
 
     isUser(){
-      return this.$store.getters.isUser
+      const  _isUser = this.$store.getters.isUser
+      console.log("_isUser = "+  _isUser)
+      return _isUser
     },
 
     isAdmin(){
