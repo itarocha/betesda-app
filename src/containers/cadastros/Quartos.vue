@@ -331,8 +331,8 @@ const Quartos = {
 
   mounted(){
     this.$store.dispatch('setAcao','Quartos')
-    this.doGetAll()
     this.doLoadListas()
+    this.doGetAll()
   },
 
   computed: {
@@ -543,7 +543,6 @@ const Quartos = {
     },
 
     doGetAll() {
-
       return new Promise((resolve, reject) => {
         petra.axiosGet("/app/quarto").then(
           response => {
@@ -557,7 +556,6 @@ const Quartos = {
             reject(error)
           })
       })
-
     },
 
     doGetById(id) {
