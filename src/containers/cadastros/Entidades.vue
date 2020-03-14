@@ -400,7 +400,7 @@ const Entidades = {
     },
 
     fmtMaiusculas(event, campo, group) {
-      var form = this.mode == 'entidades'  ? 'form' : 'formEncaminhador'
+      const form = this.mode == 'entidades'  ? 'form' : 'formEncaminhador'
 
       if (group){
         this.$data[form][group][campo] = petra.removerAcentos(event.target.value).toUpperCase();
@@ -410,13 +410,13 @@ const Entidades = {
     },
 
     fmtLetrasENumeros(event, campo) {
-      var form = this.mode == 'entidades'  ? 'form' : 'formEncaminhador'
+      const form = this.mode == 'entidades'  ? 'form' : 'formEncaminhador'
       this.$data[form][campo] = petra.letrasENumeros(event.target.value).toUpperCase();
     },
 
     fmtLetrasNumerosEspacos(event, campo, group) {
-      var form = this.mode == 'entidades'  ? 'form' : 'formEncaminhador'
-      var s = petra.letrasNumerosEspacos(event.target.value).toUpperCase()
+      const form = this.mode == 'entidades'  ? 'form' : 'formEncaminhador'
+      const s = petra.letrasNumerosEspacos(event.target.value).toUpperCase()
       if (group){
         this.$data[form][group][campo] = s;
       } else {
@@ -437,7 +437,7 @@ const Entidades = {
     },
 
     getErro(campo) {
-      var retorno = _.find(this.erros, { fieldName: campo });
+      const retorno = _.find(this.erros, { fieldName: campo });
       if (retorno) {
         return retorno.errorMessage;
       }

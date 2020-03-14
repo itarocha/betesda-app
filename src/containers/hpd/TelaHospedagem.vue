@@ -311,7 +311,7 @@ export default {
   methods: {
 
     getInfo(hospedagemId) {
-      var dados = {
+      const dados = {
         hospedagemId : hospedagemId
       }
 
@@ -433,7 +433,7 @@ export default {
     },
 
     transferirHospede(hospedeId, data){
-      var dados = {
+      const dados = {
         hospedeId : hospedeId,
         leitoId : data.acomodacao.leito.id,
         data : data.dataTransferencia

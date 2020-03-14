@@ -52,7 +52,8 @@ export default {
     config:{
       deep: true,
       handler(){
-        var hospede = this.config ? this.config.hospede : null
+        const hospede = this.config ? this.config.hospede : null
+        // veja se é possível fazer assim: const {hospede} = this.config
         this.nomeHospede = hospede ? hospede.pessoa.nome : ""
         this.hospedeId = hospede ? hospede.id : null
         this.tipoHospedeId = hospede ? hospede.tipoHospedeId : null
@@ -91,7 +92,7 @@ export default {
     },
 
     doConfirmar(hospedeId, tipoHospedeId) {
-      var dados = {
+      const dados = {
         hospedeId : hospedeId,
         tipoHospedeId : tipoHospedeId
       }

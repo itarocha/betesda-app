@@ -152,7 +152,7 @@ const TiposServicos = {
     },
 
     getErro(campo){
-      var retorno =  _.find(this.erros,{fieldName : campo})
+      const retorno =  _.find(this.erros,{fieldName : campo})
       if (retorno){
         return retorno.errorMessage
       }

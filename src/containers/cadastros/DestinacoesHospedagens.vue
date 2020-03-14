@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <el-container v-if="state == 'browse'">
       <el-header>
         <el-tooltip content="Incluir nova Destinação de Hospedagem" placement="bottom" :open-delay="toolTipDelay">
@@ -88,7 +87,7 @@ const DestinacoesHospedagens = {
   name: 'DestinacoesHospedagens',
 
   created(){
-    
+
   },
 
   mounted(){
@@ -140,7 +139,7 @@ const DestinacoesHospedagens = {
     },
 
     getErro(campo){
-      var retorno =  _.find(this.erros,{fieldName : campo})
+      const retorno =  _.find(this.erros,{fieldName : campo})
       if (retorno){
         return retorno.errorMessage
       }

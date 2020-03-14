@@ -414,7 +414,7 @@ export default {
     },
 
     baixarHospede(hospedeId, data) {
-      var dados = {
+      const dados = {
         hospedeId : hospedeId,
         data : data
       }
@@ -476,7 +476,7 @@ export default {
 
     transferirHospede(hospedeId, data){
       //var selecao = this.$refs.frameSelecaoLeito.getSelecao()
-      var dados = {
+      const dados = {
         hospedeId : hospedeId,
         leitoId : data.acomodacao.leito.id,
         data : data.dataTransferencia

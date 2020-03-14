@@ -43,13 +43,12 @@ export default {
     config:{
       deep: true,
       handler(){
-        var hospede = this.config ? this.config.hospede : null
+        const hospede = this.config ? this.config.hospede : null
         this.nomeHospede = hospede ? hospede.pessoa.nome : ""
 
-        var dataIni = this.config ? this.config.dataIni : null
-        var dataFim = this.config ? this.config.dataFim : null
-
-        var destinacaoHospedagemId = this.config ? this.config.destinacaoHospedagemId : null
+        const dataIni = this.config ? this.config.dataIni : null
+        const dataFim = this.config ? this.config.dataFim : null
+        const destinacaoHospedagemId = this.config ? this.config.destinacaoHospedagemId : null
 
         this.configTabSelecaoLeito = {
           destinacaoHospedagemId : destinacaoHospedagemId,

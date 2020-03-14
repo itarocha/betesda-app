@@ -202,7 +202,7 @@ const Pessoas = {
         return
       }
 
-      var searchRequest = {
+      const searchRequest = {
         fieldName : this.searchField,
         value : this.searchValue
       }

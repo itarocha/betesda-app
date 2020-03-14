@@ -397,7 +397,7 @@ export default {
     },
 
     getErro(campo){
-      var retorno =  _.find(this.erros,{fieldName : campo})
+      const retorno =  _.find(this.erros,{fieldName : campo})
       if (retorno){
         return retorno.errorMessage
       }
@@ -419,7 +419,7 @@ export default {
 
     loadEncaminhadores(id) {
       this.itensEncaminhadores = [];
-      var endpoint = "/app/encaminhadores/lista/"+id
+      const endpoint = "/app/encaminhadores/lista/"+id
       petra.axiosGet("/app/encaminhadores/lista/"+id).then(
         response => {
           this.itensEncaminhadores = response.data
@@ -469,11 +469,11 @@ export default {
       }
 
       if (this.formTipoHospede.tipoHospedeId && this.hospedeSelecionado){
-        var pessoaId = this.hospedeSelecionado.pessoa.id
-        var th =  _.find(this.itensTipoHospede, {value : this.formTipoHospede.tipoHospedeId})
+        const pessoaId = this.hospedeSelecionado.pessoa.id
+        const th =  _.find(this.itensTipoHospede, {value : this.formTipoHospede.tipoHospedeId})
 
         if (th){
-          var data = {
+          const data = {
             pessoaId : pessoaId,
             tipoHospede : {
               id : th.value,
@@ -514,7 +514,7 @@ export default {
       }
 
       if (this.hospedeSelecionado) {
-        var data = {
+        const data = {
           pessoaId : this.hospedeSelecionado.pessoa.id,
           acomodacao : acomodacao
         }
@@ -544,9 +544,9 @@ export default {
         toSave.servicos = this.form.servicos
       }
       for (var i = 0; i < this.aguardando.length; ++i){
-        var hospede = this.aguardando[i]
+        let hospede = this.aguardando[i]
 
-        var hospede = {
+        hospede = {
           pessoaId : hospede.pessoa.id,
           pessoaNome : hospede.pessoa.nome,
           tipoHospedeId : hospede.tipoHospede == null ? null : hospede.tipoHospede.id,

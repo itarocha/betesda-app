@@ -55,16 +55,15 @@ export default {
     config:{
       deep: true,
       handler(){
-        var hospede = this.config ? this.config.hospede : null
+        const hospede = this.config ? this.config.hospede : null
 
         this.nomeHospede = hospede ? hospede.pessoa.nome : ""
         this.hospedeId = hospede ? hospede.id : null
         this.hospedagemId = this.config ? this.config.hospedagemId : null
 
-        var dataIni = this.config ? this.config.dataIni : null
-        var dataFim = this.config ? this.config.dataFim : null
-
-        var destinacaoHospedagemId = this.config ? this.config.destinacaoHospedagemId : null
+        const dataIni = this.config ? this.config.dataIni : null
+        const dataFim = this.config ? this.config.dataFim : null
+        const destinacaoHospedagemId = this.config ? this.config.destinacaoHospedagemId : null
 
         this.configTabSelecaoLeito = {
           hospedagemId : this.hospedagemId,
@@ -134,7 +133,7 @@ export default {
 
     doSelecionarTransferencia(ok){
       if (ok){
-        var dados = {
+        const dados = {
           hospedeId : this.hospedeId,
           leitoId : this.acomodacao.leito.id,
           data : this.form.data 

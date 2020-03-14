@@ -405,15 +405,14 @@ const Quartos = {
     },
 
     getNomeTab(quarto){
-      var retorno = `quarto${quarto.numero}`
-      return retorno
+      return `quarto${quarto.numero}`
     },
 
     setDefaultData(){
     },
 
     getErro(campo){
-      var retorno =  _.find(this.erros,{fieldName : campo})
+      const retorno =  _.find(this.erros,{fieldName : campo})
       if (retorno){
         return retorno.errorMessage
       }
@@ -591,8 +590,8 @@ const Quartos = {
       petra.axiosGet(`/app/quarto/${id}`).then(
         response => {
           this.state = "editQuarto"
-          var item = response.data  
-          var destinacoes = []
+          const item = response.data  
+          const destinacoes = []
           for(var i = 0; i < item.destinacoes.length; i++){
             destinacoes.push(item.destinacoes[i].id)
           }
@@ -652,7 +651,7 @@ const Quartos = {
       petra.axiosGet(`/app/quarto/leito/${id}`).then(
         response => {
           this.state = "editLeito"
-          var item = response.data  
+          const item = response.data  
 
           this.formLeito = {
             id: item.id,

@@ -53,7 +53,7 @@ export default {
     },
 
     doConfirmar(hospedeId, data) {
-      var dados = {
+      const dados = {
         hospedeId : hospedeId,
         data : data
       }

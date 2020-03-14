@@ -354,7 +354,7 @@ export default {
       this.quadroLeitoNumero = null
       this.formCidade = null
 
-      var d = moment(this.dataAtual).toDate()
+      const d = moment(this.dataAtual).toDate()
       this.diaIndex = petraDateTime.getIndiceData(this.dataAtual)
 
       this.setShowDate(d)
@@ -551,7 +551,7 @@ export default {
     },
 
     quadroClass(dia, quarto, leito){
-      var conteudo = this.quadro.quartos[quarto].leitos[leito].dias[this.diaIndex];
+      const conteudo = this.quadro.quartos[quarto].leitos[leito].dias[this.diaIndex];
 
       if (conteudo == 1){
         return "thebox-circular teal-darken-2 fonte-branca";  
@@ -562,8 +562,8 @@ export default {
     // NOVO
     newHospedagemClass(classe, status){
 
-      var classeStatus =  this.newColorStatusItem(status)
-      var retorno = 'grafico ' + classeStatus + ' ';
+      const classeStatus =  this.newColorStatusItem(status)
+      const retorno = 'grafico ' + classeStatus + ' ';
       
       if (classe != null){
         return retorno + 'grafico_' + classe;
@@ -573,8 +573,8 @@ export default {
     },  
 
     hospedagemClass(classeIni, classeFim, status){
-      var classeStatus =  this.newColorStatusItem(status)
-      var retorno = 'grafico ' + classeStatus + ' ';
+      const classeStatus =  this.newColorStatusItem(status)
+      const retorno = 'grafico ' + classeStatus + ' ';
       
       return retorno + 'grafico_' + classeIni + classeFim;
     },
@@ -591,7 +591,7 @@ export default {
     },
 
     calcularAlturaLeito(index){
-      var qtd = 0
+      let qtd = 0
 
       if (this.dados && this.dados.leitos){
         qtd = this.dados.leitos[index].hospedagens.length
@@ -613,16 +613,16 @@ export default {
     },
 
     getHospedagensByLeitoId(id){
-      var hospedagensQuadro = []
-      var quadroQuartoNumero = null
-      var quadroLeitoNumero = null
+      const hospedagensQuadro = []
+      let quadroQuartoNumero = null
+      let quadroLeitoNumero = null
 
-      var diaIndex = this.diaIndex
+      const diaIndex = this.diaIndex
 
-      var lst = _.filter(this.dados.hospedes, {leitoId : id})
+      const lst = _.filter(this.dados.hospedes, {leitoId : id})
 
       for (var i = 0; i < lst.length; i++){
-        var hospedagem = lst[i];
+        const hospedagem = lst[i];
 
         const zeroOuUm = hospedagem.dias[diaIndex]
         if (zeroOuUm == 1){
@@ -642,21 +642,18 @@ this.hospedagensQuadro = hospedagensQuadro
     },
 
     //TODO OTIMIZAR. DEVE PROCURAR PELA LISTA DE LEITOS
-    getHospedagensByCidade(cidade){
-      var hospedagensCidade = []
-
-      var hospedes = this.dados.hospedes
-
-      var cidade = _.find(this.cidades, {nome:cidade})
+    getHospedagensByCidade(nome_cidade){
+      const hospedagensCidade = []
+      const cidade = _.find(this.cidades, {nome:nome_cidade})
 
       if (cidade){
         _.forEach(cidade.ids, function(id){
-            var hospedagem = _.find(hospedes, {identificador : id})
+            const hospedagem = _.find(this.dados.hospedes, {identificador : id})
             
             if (hospedagem){
               hospedagensCidade.push(hospedagem)
               return
-              }
+            }
         })
       }
 
@@ -683,7 +680,7 @@ this.hospedagensQuadro = hospedagensQuadro
     },
 
     calculateWidth(width, classeIni, classeFim){
-      var toReduce = 8
+      let toReduce = 8
 
       if (classeIni == "vindo"){
         toReduce = toReduce + 4
@@ -693,9 +690,9 @@ this.hospedagensQuadro = hospedagensQuadro
         toReduce = toReduce + 4
       }
 
-      var w = width + ((width / 700) * 11)
+      const w = width + ((width / 700) * 11)
 
-      var retorno = toReduce > 0 ? `width: calc(${w}% - ${toReduce}px);` : `width: ${w}%;`
+      const retorno = toReduce > 0 ? `width: calc(${w}% - ${toReduce}px);` : `width: ${w}%;`
       return retorno
     },
 
