@@ -2,18 +2,12 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import VueLogger from 'vuejs-logger';
 import * as Keycloak from 'keycloak-js'
 import router from './router'
 global.router = router
 
-import ElementUI from 'element-ui';
 
-//import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-//library.add(faCoffee)
-
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 
@@ -30,7 +24,6 @@ global.store = store
 
 import axios from 'axios'
 global.axios = axios
-
 
 import VueTheMask from 'vue-the-mask'
 
@@ -52,6 +45,7 @@ global.moment = moment
 
 Vue.config.productionTip = false
 
+import ElementUI from 'element-ui';
 Vue.use(ElementUI);
 
 //import './filters/ItaDateFilter.js'
@@ -62,6 +56,7 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+import VueLogger from 'vuejs-logger';
 const logOptions = {
   isEnabled: true,
   logLevel : Vue.config.productionTip  ? 'error' : 'debug',
@@ -77,17 +72,21 @@ Vue.use(VueLogger, logOptions);
 /* eslint-disable no-new */
 let initOptions = {
   url: 'http://localhost:8200/auth',
-  realm: 'quarkus-quickstart',
-  clientId: 'quarkus-front',
+  realm: 'casa-betesda',
+  clientId: 'betesda-front',
   onLoad: 'login-required',
   promiseType: 'native'
 }
-
 let keycloak = Keycloak(initOptions);
+
+
+import pluginKc from './plugins/pluginKc.js'
+Vue.use(pluginKc, {keycloak: keycloak});
 
 keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
     
   if(!auth) {
+    //localStorage.clear()
     window.location.reload();
   } else {
     Vue.$log.info("Authenticated");
@@ -106,19 +105,26 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
   localStorage.setItem("keycloak", keycloak)
 
   setTimeout(() =>{
-    keycloak.updateToken(70).success((refreshed)=>{
+    console.log("chamando setTimeout() "+ new Date());
+    console.log("token = ", keycloak.token)
+    console.log("refreshToken = ", keycloak.refreshToken)
+
+    keycloak.updateToken(60).success((refreshed)=>{
       if (refreshed) {
-        Vue.$log.debug('Token refreshed'+ refreshed);
+        Vue.$log.debug('Token refreshed: '+ refreshed);
+
+        localStorage.setItem("token", keycloak.token);
+        localStorage.setItem("refresh-token", keycloak.refreshToken);
+
       } else {
         Vue.$log.warn('Token not refreshed, valid for '
         + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
       }
     }).error(()=>{
         Vue.$log.error('Failed to refresh token');
+        window.location.reload();
     });
-
-
-  }, 1000)
+  }, 5000)
 
 }).error((e) =>{
   console.log(e);

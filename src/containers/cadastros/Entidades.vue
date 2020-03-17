@@ -616,6 +616,7 @@ const Entidades = {
       this.errors = [];
 
       this.formEncaminhador.entidade = this.formEntidade
+      this.formEncaminhador.entidadeId = this.formEntidade.id
 
       petra
         .axiosPost("/app/encaminhadores/", this.formEncaminhador, true)

@@ -1,4 +1,5 @@
 import * as Keycloak from 'keycloak-js'
+import Vue from 'vue'
 
 const moment = require('moment')
 
@@ -158,7 +159,8 @@ export default {
       }
 
       if (falhaAutorizacao){
-          this.doLogout()  
+          console.log('falha na autorização')
+          ////////this.doLogout()  
       } else {
         reject(error)
       }
@@ -199,47 +201,8 @@ export default {
       },
 
       doLogout(){
-
-        let keycloak = localStorage.getItem("keycloak")
-        if (keycloak){
-          keycloak.logout()
-          localStorage.removeItem("token");
-          localStorage.removeItem("refresh-token");
-          localStorage.removeItem("keycloak");
-          store.dispatch("limparHospedagem")
-          store.dispatch('destroyToken')
-          router.push({name:'home'})
-        }
-
-        /*
-        let initOptions = {
-          url: 'http://localhost:8200/auth',
-          realm: 'quarkus-quickstart',
-          clientId: 'quarkus-front',
-          onLoad: 'login-required',
-          promiseType: 'native'
-        }
-        
-        let keycloak = Keycloak(initOptions);
-        
-        keycloak.logout().success((auth) =>{
-            
-          console.log("LOGOUT EFETUADO COM SUCESSO")
-
-
-          store.dispatch("limparHospedagem")
-          store.dispatch('destroyToken')
-          router.push({name:'home'})
-          
-          localStorage.removeItem("token");
-          localStorage.removeItem("refresh-token");
-        
-        }).error((e) =>{
-          console.log(e);
-          Vue.$log.error("Authenticated Failed");
-        });
-        */
-
+        console.log(Vue.prototype)
+        Vue.prototype.$logout("/")
       },
 
       sem_acento(val, replaceBy) {

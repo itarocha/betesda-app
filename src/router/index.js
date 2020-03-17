@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Home from '@/containers/Home'
 
-import Login from '@/containers/auth/Login'
+//import Login from '@/containers/auth/Login'
 import RedefinirSenha from '@/containers/auth/RedefinirSenha'
 import CreateNewUser from '@/containers/auth/CreateNewUser'
 
@@ -133,14 +133,6 @@ const router = new Router({
       }
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
-      meta: {
-        requiresVisitor: true
-      }
-    },
-    {
       path: '/redefinir-senha/:token',
       name: 'redefinir_senha',
       component: RedefinirSenha,
@@ -157,13 +149,15 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+ 
   //console.log('beforeEach in route from ', from)
   if(to.matched.some(record => record.meta.requiresAuth)){
     var loggedIn = store.getters.loggedIn
     //console.log("Path: ",to.path," loggedIn = ",loggedIn," meta = ", to.meta)
     if (!loggedIn){
       next({
-        path: '/login',
+        __path: '/login',
+        path: '/',
         query: { redirect: to.fullPath }
       })
     } else {
@@ -175,3 +169,17 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
+
+/*
+
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+      meta: {
+        requiresVisitor: true
+      }
+    },
+
+
+*/

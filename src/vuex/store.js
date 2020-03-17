@@ -7,7 +7,6 @@ function containsRole(state, role){
     const user =  state.token ?  petra.parseJwt(state.token) : null
     if (user && user.realm_access && user.realm_access.roles){
         const roles = user.realm_access.roles
-        console.log('role = '+role)
         return roles.indexOf(role) >= 0
      }
     return false
@@ -205,10 +204,6 @@ export default new Vuex.Store({
 
             var decode = petra.parseJwt(token)
             state.user = decode
-
-            //console.log(".............. store.retrieveToken = ",decode)
-
-            //console.log("AXIOS.HEADER = ",axios.defaults.headers.common)
         },
         destroyToken(state){
             state.token = null
