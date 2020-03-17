@@ -80,6 +80,32 @@ let initOptions = {
 let keycloak = Keycloak(initOptions);
 
 
+const refreshTokenTimeout = () => {
+  setTimeout(function () {
+    console.log('chamando timeout '+new Date())
+
+    keycloak.updateToken(5).success((refreshed)=>{
+      if (refreshed) {
+        console.log('Token refreshed: ', refreshed);
+        //Vue.$log.debug('Token refreshed: '+ refreshed);
+
+        localStorage.setItem("token", keycloak.token);
+        localStorage.setItem("refresh-token", keycloak.refreshToken);
+
+      } else {
+        //Vue.$log.warn('Token not refreshed, valid for ' + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+        console.log('Token not refreshed, valid for ' + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+      }
+    }).error(()=>{
+        Vue.$log.error('Failed to refresh token');
+        window.location.reload();
+    });
+
+    refreshTokenTimeout();
+  }, 60000);
+}
+
+
 import pluginKc from './plugins/pluginKc.js'
 Vue.use(pluginKc, {keycloak: keycloak});
 
@@ -104,27 +130,7 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
   localStorage.setItem("refresh-token", keycloak.refreshToken);
   localStorage.setItem("keycloak", keycloak)
 
-  setTimeout(() =>{
-    console.log("chamando setTimeout() "+ new Date());
-    console.log("token = ", keycloak.token)
-    console.log("refreshToken = ", keycloak.refreshToken)
-
-    keycloak.updateToken(60).success((refreshed)=>{
-      if (refreshed) {
-        Vue.$log.debug('Token refreshed: '+ refreshed);
-
-        localStorage.setItem("token", keycloak.token);
-        localStorage.setItem("refresh-token", keycloak.refreshToken);
-
-      } else {
-        Vue.$log.warn('Token not refreshed, valid for '
-        + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-      }
-    }).error(()=>{
-        Vue.$log.error('Failed to refresh token');
-        window.location.reload();
-    });
-  }, 5000)
+  refreshTokenTimeout();
 
 }).error((e) =>{
   console.log(e);
