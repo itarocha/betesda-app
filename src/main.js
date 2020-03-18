@@ -87,14 +87,14 @@ const refreshTokenTimeout = () => {
     keycloak.updateToken(5).success((refreshed)=>{
       if (refreshed) {
         console.log('Token refreshed: ', refreshed);
-        //Vue.$log.debug('Token refreshed: '+ refreshed);
-
+        console.log('new token: ', keycloak.token)
         localStorage.setItem("token", keycloak.token);
         localStorage.setItem("refresh-token", keycloak.refreshToken);
 
       } else {
         //Vue.$log.warn('Token not refreshed, valid for ' + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-        console.log('Token not refreshed, valid for ' + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+        let time = Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000);
+        console.log('Token not refreshed, valid for ' + time + ' seconds')
       }
     }).error(()=>{
         Vue.$log.error('Failed to refresh token');
@@ -118,6 +118,11 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
     Vue.$log.info("Authenticated");
   }
 
+  console.log('initial token: ', keycloak.token)
+  localStorage.setItem("token", keycloak.token);
+  localStorage.setItem("refresh-token", keycloak.refreshToken);
+  localStorage.setItem("keycloak", keycloak)
+
   new Vue({
     el: '#app',
     router,
@@ -125,10 +130,6 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
     components: { App },
     template: '<App/>'
   });
-
-  localStorage.setItem("token", keycloak.token);
-  localStorage.setItem("refresh-token", keycloak.refreshToken);
-  localStorage.setItem("keycloak", keycloak)
 
   refreshTokenTimeout();
 
